@@ -16,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 
-
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
+
+Route::resource('posts', 'PostsController');
+
+Route::post('comment/create/{post_id}', 'CommentsController@store')->name('createComment');
+
+Route::post('comment/delete/{comment_id}', 'CommentsController@destroy')->name('deleteComment');

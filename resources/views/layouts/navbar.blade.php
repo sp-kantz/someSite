@@ -25,8 +25,13 @@
                     <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/posts/add">Create Post</a>
+                    <a class="nav-link" href="/posts">Blog</a>
                 </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="/posts/create">Create Post</a>
+                    </li>
+                @endauth
             </ul>
 
             <!-- Right Side Of Navbar -->
