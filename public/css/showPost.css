@@ -1,0 +1,26 @@
+#reviews{
+	width: 35%;
+	position: relative;
+	font-family: Book Antiqua, Palatino, serif;
+    text-decoration:none;
+    overflow: hidden;
+}
+
+#likes{
+    float: left;
+	background-color:#37c2da;
+	width:0%;
+    height:20px;
+    overflow: hidden;   
+}
+
+#dislikes{
+	background-color:#cf362f;
+	width:0%;
+    height:20px;
+    overflow: hidden;   
+}
+
+#likeBtns{
+    margin-top: 10px;
+}

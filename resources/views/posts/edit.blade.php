@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('header_title', 'Edit Post')
+
 @section('content')
     <h2>Edit Post</h2>
     <form method="POST" action="{{Route('posts.update', $post->id)}}">

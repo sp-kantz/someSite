@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Like;
+use App\Post;
 
 class DashboardController extends Controller
 {
@@ -23,11 +25,27 @@ class DashboardController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $user_id = auth()->user()->id;
-        $posts = User::find($user_id)->posts()->orderBy('created_at', 'desc')->get();
-        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->get();
-        
-        return view('dashboard')->with('data', ['posts'=>$posts, 'comments'=>$comments]);
+    {        
+        return view('dashboard');
+    }
+
+    public function posts(){
+        $posts = User::find(auth()->user()->id)->posts()->orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard.userPosts')->with('posts', $posts);
+    }
+
+    public function comments(){
+        $comments = User::find(auth()->user()->id)->comments()->orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard.userComments')->with('comments', $comments);
+    }
+
+    public function likes(){
+        $likes = Like::where('value', 1)->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard.userLikes')->with('likes', $likes);
+    }
+
+    public function dislikes(){
+        $dislikes = Like::where('value', 0)->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+        return view('dashboard.userDislikes')->with('dislikes', $dislikes);
     }
 }

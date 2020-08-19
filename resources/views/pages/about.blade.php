@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('header_title', 'About')
+
 @section('content')
 
     <div class="content">
@@ -7,10 +9,7 @@
             About
         </div>
 
-        <div class="links">
-            <a class='btn' href="https://laravel.com/docs">Docs</a>
-            <a href="https://laracasts.com">Laracasts</a>
-        </div>
+        <p>Some text about this blog</p>
     </div>
 
 @endsection

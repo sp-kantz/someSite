@@ -3,7 +3,7 @@
     
 @else
 
-    <form action="{{Route('createComment', $post->id)}}" method="POST">
+    <form action="{{Route('createComment', $data['post']->id)}}" method="POST">
         @csrf
         <div class="form-group">
             <div class="col-md-8">       
@@ -21,12 +21,12 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <label class="panel-title">Recent Comments ({{count($post->comments)}}):</label>
+        <label class="panel-title">Recent Comments ({{count($data['post']->comments)}}):</label>
     </div>
     <div class="panel-body">
-        @if (count($post->comments)>0)
+        @if (count($data['post']->comments)>0)
             <ul class="list-group"> 
-                @foreach ($post->comments()->orderBy('created_at', 'desc')->get() as $comment)     
+                @foreach ($data['post']->comments()->orderBy('created_at', 'desc')->get() as $comment)     
                     <li class="list-group-item comment_box" id="{{$comment->id}}">
                         <div class="row">
                             <div class="pl-3">

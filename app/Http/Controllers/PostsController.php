@@ -47,9 +47,9 @@ class PostsController extends Controller
         ]);
         
         $post = new Post;
-        $post->title=$request->input('title');
-        $post->body=$request->input('body');
-        $post->user_id=auth()->user()->id;
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->user_id = auth()->user()->id;
         $post->save();
         return redirect('/posts')->with('success', 'Post Created');
     }
@@ -63,7 +63,35 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('posts.show')->with('post', $post);
+        $liked = -1;
+        if (auth()->user()){
+            foreach ($post->likes as $like){
+                if ($like->user_id == auth()->user()->id){
+                    $liked = $like->value;
+                }
+            }
+        }
+
+        $total = $post->likes()->count();
+        $likes = $post->likes()->where('value', 1)->count();
+        $dislikes = $total - $likes;
+        if($total>0){
+            $likePer = $likes * 100 / $total;
+            $dislikePer = $dislikes * 100 / $total;
+        }
+        else{
+            $likePer = 100;
+            $dislikePer = 100; 
+        }
+        
+        return view('posts.show')->with('data', 
+            ['post'=>$post,
+            'total'=>$total,
+            'likes'=>$likes,
+            'dislikes'=>$dislikes,
+            'likePer'=>$likePer,
+            'dislikePer'=>$dislikePer,
+            'liked'=>$liked]);
     }
 
     /**
@@ -98,8 +126,8 @@ class PostsController extends Controller
         ]);
         
         $post = Post::find($id);
-        $post->title=$request->input('title');
-        $post->body=$request->input('body');
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
         $post->save();
         return redirect('/posts')->with('success', 'Post Updated');
     }

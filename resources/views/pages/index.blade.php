@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
+@section('header_title', 'Home')
+
 @section('content')
     <div class="flex-center position-ref full-height">
 
         <div class="content">
             <div class="title m-b-md">
-                Laravel
+                <h2>Laravel Blog Example<h2>
             </div>
 
-            <div class="links">
-                <a class='btn' href="https://laravel.com/docs">Docs</a>
-                <a href="https://laracasts.com">Laracasts</a>
+            <div class="">
+                <a class='btn' href="/login">Login</a>
+                <a href="/register">Register</a>
                 
-                <a href="https://vapor.laravel.com">Vapor</a>
-                <a href="https://github.com/laravel/laravel">GitHub</a>
+                <a href="/posts">Blog Posts</a>
+                <a href="/about">About someBlog</a>
             </div>
         </div>
     </div>
