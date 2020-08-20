@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
-@section('header_title', $data['post']->title)
+@if($data['post'])
+    @section('header_title', $data['post']->title)
+@endif
 
 @section('header_links')
     <link href="{{ URL::asset('css/showPost.css') }}" rel="stylesheet">
@@ -12,11 +13,22 @@
 @section('content')
     @if ($data['post'])
         <div class="container" post_id={{$data['post']->id}} id="post">
-            <div class="label-info" id="status"></div>
             <h2>{{$data['post']->title}}</h2>
-            <small>by {{$data['post']->user->name}}</small></br>
-            <small>Written: {{$data['post']->created_at}}, Updated: {{$data['post']->updated_at}}</small>
+            <div class="row">
+                <div class="mr-3">
+                    <div class="row-md-2">
+                        <img width="35" height="35" src="/storage/profile_images/thumbnails/{{$data['post']->user->profile_image}}" />
+                        <strong>by {{$data['post']->user->name}}</strong>
+                        <small>Written: {{$data['post']->created_at}}, Updated: {{$data['post']->updated_at}}</small>
+                        
+                    </div>
+                </div>
+            </div>
             <hr>
+            @if ($data['post']->cover_image !== 'noimage.jpg')
+                <img style="width: 100%" src="/storage/cover_images/{{$data['post']->cover_image}}" />
+            @endif
+
             <div>
                 {{$data['post']->body}}
             </div>

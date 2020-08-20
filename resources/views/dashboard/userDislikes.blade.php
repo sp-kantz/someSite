@@ -23,7 +23,7 @@
             </table>
             {{$dislikes->links()}}
         @else
-            <p>You have no posts</p>
+            <p>You have not disliked any posts</p>
         @endif  
     </div>
 @endsection

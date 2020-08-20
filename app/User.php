@@ -37,6 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $attributes = [
+        'theme' => false,
+        'profile_image' => 'noimage.jpg'
+    ];
+
     public function posts(){
         return $this->hasMany('App\Post');
     }

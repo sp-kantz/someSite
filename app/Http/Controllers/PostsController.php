@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -43,13 +44,25 @@ class PostsController extends Controller
     {
         $this->validate($request, [
             'title'=>'required',
-            'body'=>'required'
+            'body'=>'required',
+            'cover_image'=>'image|nullable|max:1999'
         ]);
-        
+
+        if($request->file('cover_image')){
+            $file = $request->file('cover_image')->getClientOriginalName();
+            $name = pathinfo($file, PATHINFO_FILENAME);
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            $filename = $name.'_'.time().'.'.$extension;
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $filename);
+        }else{
+            $filename = 'noimage.jpg';
+        }
+
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
+        $post->cover_image = $filename;
         $post->save();
         return redirect('/posts')->with('success', 'Post Created');
     }
@@ -63,28 +76,29 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        $liked = -1;
-        if (auth()->user()){
-            foreach ($post->likes as $like){
-                if ($like->user_id == auth()->user()->id){
-                    $liked = $like->value;
+        if($post){
+            $liked = -1;
+            if (auth()->user()){
+                foreach ($post->likes as $like){
+                    if ($like->user_id == auth()->user()->id){
+                        $liked = $like->value;
+                    }
                 }
             }
-        }
 
-        $total = $post->likes()->count();
-        $likes = $post->likes()->where('value', 1)->count();
-        $dislikes = $total - $likes;
-        if($total>0){
-            $likePer = $likes * 100 / $total;
-            $dislikePer = $dislikes * 100 / $total;
-        }
-        else{
-            $likePer = 100;
-            $dislikePer = 100; 
-        }
-        
-        return view('posts.show')->with('data', 
+            $total = $post->likes()->count();
+            $likes = $post->likes()->where('value', 1)->count();
+            $dislikes = $total - $likes;
+            if($total>0){
+                $likePer = $likes * 100 / $total;
+                $dislikePer = $dislikes * 100 / $total;
+            }
+            else{
+                $likePer = 100;
+                $dislikePer = 100; 
+            }
+
+            return view('posts.show')->with('data', 
             ['post'=>$post,
             'total'=>$total,
             'likes'=>$likes,
@@ -92,6 +106,10 @@ class PostsController extends Controller
             'likePer'=>$likePer,
             'dislikePer'=>$dislikePer,
             'liked'=>$liked]);
+        }
+
+        return view('posts.show')->with('data', 
+            ['post'=>$post]);        
     }
 
     /**
@@ -124,10 +142,21 @@ class PostsController extends Controller
             'title'=>'required',
             'body'=>'required'
         ]);
+
+        if($request->file('cover_image')){
+            $file = $request->file('cover_image')->getClientOriginalName();
+            $name = pathinfo($file, PATHINFO_FILENAME);
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            $filename = $name.'_'.time().'.'.$extension;
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $filename);
+        }
         
         $post = Post::find($id);
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        if($request->file('cover_image')){
+            $post->cover_image = $filename;
+        }
         $post->save();
         return redirect('/posts')->with('success', 'Post Updated');
     }
@@ -144,6 +173,10 @@ class PostsController extends Controller
 
         if(auth()->user()->id !== $post->user_id) {
             return redirect('/posts')->with('error', 'Unauthorized Action');
+        }
+
+        if($post->cover_image !== 'noimage.jpg'){
+            Storage::delete('public/cover_images/'.$post->cover_image);
         }
 
         $post->delete();

@@ -23,6 +23,8 @@ Route::get('/dashboard/posts', 'DashboardController@posts');
 Route::get('/dashboard/comments', 'DashboardController@comments');
 Route::get('/dashboard/likes', 'DashboardController@likes');
 Route::get('/dashboard/dislikes', 'DashboardController@dislikes');
+Route::get('/dashboard/settings', 'DashboardController@settings');
+Route::post('/dashboard/settings', 'DashboardController@saveSettings')->name('saveSettings');;
 
 Route::resource('posts', 'PostsController');
 

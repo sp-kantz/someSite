@@ -29,21 +29,33 @@
                 @foreach ($data['post']->comments()->orderBy('created_at', 'desc')->get() as $comment)     
                     <li class="list-group-item comment_box" id="{{$comment->id}}">
                         <div class="row">
-                            <div class="pl-3">
+                            <div class="pl-4">
                                 <div class="row">
-                                    <div class="mr-3"><strong>{{$comment->user->name}}</strong></div><small><em> on </em>{{$comment->created_at}}</small>
-                                    @if (!Auth::guest())
-                                        @if (Auth::user()->id == $comment->user_id)                                            
-                                            <form method="POST" action="{{Route('deleteComment', $comment->id)}}">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-xs ml-3 mb-2" title="Delete">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </form>                                            
-                                        @endif                     
-                                    @endif 
+                                    <div class="mr-3">
+                                        <div class="row-md-2">
+                                            <img width="35" height="35" src="/storage/profile_images/thumbnails/{{$comment->user->profile_image}}" />
+                                            <strong>{{$comment->user->name}}</strong>
+                                            <small><em> on </em>{{$comment->created_at}}</small>
+                                            
+                                        </div>
+                                    </div>
+                                </br>
+                                    
+                                    
                                 </div>                                
-                                <div class="comment-text" id="comment_text">{{$comment->body}}</div>                                    
+                                <div class="comment-text row" id="comment_text">{{$comment->body}}
+                                    @if (!Auth::guest())
+                                    @if (Auth::user()->id == $comment->user_id)                                            
+                                        <form method="POST" action="{{Route('deleteComment', $comment->id)}}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-xs ml-3 mb-2" title="Delete">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </form>                                            
+                                    @endif                     
+                                @endif 
+                                </div>   
+                                                                 
                             </div>
                         </div>
                     </li>
