@@ -18,6 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(!Auth::guest())
+        <link href="{{ asset('css/main'.Auth::user()->theme.'.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/main0.css') }}" rel="stylesheet">
+    @endif
 
     @yield('header_links')
 </head>

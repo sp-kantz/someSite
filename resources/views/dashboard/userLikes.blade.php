@@ -14,10 +14,9 @@
                 @foreach ($likes as $like)
                     <tr>
                         <td>
-                            <a href="/posts/{{$like->post->id}}">{{$like->post->title}}</a>
+                            <a class="dash-link" href="/posts/{{$like->post->id}}">{{$like->post->title}}</a>
                         </td>
                         <td>{{$like->created_at}}</td>
-
                     </tr>
                 @endforeach
             </table>

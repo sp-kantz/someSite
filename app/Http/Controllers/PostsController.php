@@ -77,6 +77,7 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
         if($post){
+            $comments = $post->comments()->orderBy('created_at', 'desc')->get();
             $liked = -1;
             if (auth()->user()){
                 foreach ($post->likes as $like){
@@ -89,7 +90,7 @@ class PostsController extends Controller
             $total = $post->likes()->count();
             $likes = $post->likes()->where('value', 1)->count();
             $dislikes = $total - $likes;
-            if($total>0){
+            if($total > 0){
                 $likePer = $likes * 100 / $total;
                 $dislikePer = $dislikes * 100 / $total;
             }
@@ -99,13 +100,14 @@ class PostsController extends Controller
             }
 
             return view('posts.show')->with('data', 
-            ['post'=>$post,
-            'total'=>$total,
-            'likes'=>$likes,
-            'dislikes'=>$dislikes,
-            'likePer'=>$likePer,
-            'dislikePer'=>$dislikePer,
-            'liked'=>$liked]);
+                ['post'=>$post,
+                'comments'=>$comments,
+                'total'=>$total,
+                'likes'=>$likes,
+                'dislikes'=>$dislikes,
+                'likePer'=>$likePer,
+                'dislikePer'=>$dislikePer,
+                'liked'=>$liked]);
         }
 
         return view('posts.show')->with('data', 
@@ -158,7 +160,7 @@ class PostsController extends Controller
             $post->cover_image = $filename;
         }
         $post->save();
-        return redirect('/posts')->with('success', 'Post Updated');
+        return redirect('/posts/'.$id)->with('success', 'Post Updated');
     }
 
     /**
@@ -169,7 +171,7 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post=Post::find($id);
+        $post = Post::find($id);
 
         if(auth()->user()->id !== $post->user_id) {
             return redirect('/posts')->with('error', 'Unauthorized Action');

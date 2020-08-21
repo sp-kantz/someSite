@@ -15,7 +15,7 @@
                 @foreach ($comments as $comment)
                     <tr>
                         <td>
-                            <a href="/posts/{{$comment->post_id}}#{{$comment->id}}">{{$comment->body}}</a>
+                            <a class="dash-link" href="/posts/{{$comment->post_id}}#{{$comment->id}}">{{$comment->body}}</a>
                         </td>
                         <td>{{$comment->created_at}}</td>
                         

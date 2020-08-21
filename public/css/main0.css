@@ -1,0 +1,62 @@
+body {
+	font-size: 18px;
+	background-color: #dbe5e7;
+	color: #000000;
+	font-family: Book Antiqua, Palatino,serif;
+}
+
+h1 {
+	font-family: Palatino Linotype, serif;
+	font-size: 46px;
+	font-weight: bold;
+	color: #252519;
+	text-align: center;
+}
+
+.pagination{
+	display: flex;
+	justify-content: center;
+}
+
+.page-item.active .page-link{
+
+	background-color: #646e70;
+	border-style: none;
+}
+
+.page-link{
+	background-color: #b3c0c5;
+	color: rgb(58, 99, 83);
+	margin-left: 1rem;
+	border-style: none;
+	border-radius: 1rem;
+}
+
+.post_title{
+    font-size: 36px;
+    text-decoration: none;
+    display: block;
+	color: #181820;
+}
+
+.post_title:hover{
+    font-size: 36px;
+    text-decoration: none;
+    display: block;
+	color: #2d2d58;
+}
+
+.dash-link{
+    font-size: 22px;
+    text-decoration: none;
+    display: block;
+    color: #181820;
+    overflow: hidden;
+}
+
+.dash-link:hover{
+    font-size: 22px;
+    text-decoration: none;
+    display: block;
+	color: #2d2d58;
+}

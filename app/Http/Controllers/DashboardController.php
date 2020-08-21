@@ -70,12 +70,9 @@ class DashboardController extends Controller
 
             $file = $upload->getClientOriginalName();
             $name = pathinfo($file, PATHINFO_FILENAME);             
-            $stamp = time();
             $extension = $upload->getClientOriginalExtension();
+            $filename = $name.'_'.time().'.'.$extension;
 
-            $filename = $name.'_'.$stamp.'.'.$extension;
-            // $filenameThumb = $name.'_'.$stamp.'.'.$extension;
-            // $path = $upload->storeAs('public/profile_images/original', $filename);
             $path = $upload->storeAs('public/profile_images', $filename);
             
             $temp_path='public/temp/'.$filename;
@@ -92,6 +89,10 @@ class DashboardController extends Controller
     
                 case IMAGETYPE_PNG:
                     $source_gd_image = imagecreatefrompng($upload);
+                    break;
+                
+                case IMAGETYPE_GIF:
+                    $source_gd_image = imagecreatefromgif($upload);
                     break;
             }
 
@@ -125,8 +126,7 @@ class DashboardController extends Controller
             Storage::delete('public/profile_images/thumbnails/'.$user->profile_image);
             $user->profile_image = $filename;
         }
-
-        
+  
         $user->save();
 
         return back()->with('success', 'Settings Saved');

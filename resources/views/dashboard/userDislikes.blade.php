@@ -14,7 +14,7 @@
                 @foreach ($dislikes as $dislike)
                     <tr>
                         <td>
-                            <a href="/posts/{{$dislike->post->id}}">{{$dislike->post->title}}</a>
+                            <a class="dash-link" href="/posts/{{$dislike->post->id}}">{{$dislike->post->title}}</a>
                         </td>
                         <td>{{$dislike->created_at}}</td>
 

@@ -16,12 +16,12 @@
                 @foreach ($posts as $post)
                     <tr>
                         <td>
-                            <a href="/posts/{{$post->id}}">{{$post->title}}</a>
+                            <a class="dash-link" href="/posts/{{$post->id}}">{{$post->title}}</a>
                         </td>
                         <td>{{$post->created_at}}</td>
                         <td>{{$post->updated_at}}</td>
                         <td>
-                            <a href="/posts/{{$post->id}}/edit" class="btn">Edit</a>
+                            <a href="/posts/{{$post->id}}/edit" class="btn btn-dark">Edit</a>
                         </td>
                         <td>
                             <form action="{{Route('posts.destroy', $post->id)}}" method="POST">
