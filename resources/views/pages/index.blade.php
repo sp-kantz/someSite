@@ -10,13 +10,6 @@
                 <h2>Laravel Blog Example<h2>
             </div>
 
-            <div class="links">
-                <a class='btn' href="/login">Login</a>
-                <a href="/register">Register</a>
-                
-                <a href="/posts">Blog Posts</a>
-                <a href="/about">About someBlog</a>
-            </div>
             @if ($data['post'])
                 <hr>
                 <h4>Latest Post</h4>
@@ -49,7 +42,6 @@
                     </div> 
                 
                     </br>                                
-                    
                 @endif
             @endif
         </div>
